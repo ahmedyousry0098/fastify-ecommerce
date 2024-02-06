@@ -25,10 +25,11 @@ model Category {
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  name      String
   picture   String?
   product   Product[]
-  parent_id String
-  parent    Category   @relation("childToParent", fields: [parent_id], references: [id])
+  parent_id String?
+  parent    Category?   @relation("childToParent", fields: [parent_id], references: [id])
   child     Category[] @relation("childToParent")
 }
 
