@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ahmed
+      MYSQL_PASSWORD: mysqlpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+
+  backend:
+    build: 
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://root:mysql@localhost:3306/ecommerce
+    ports:
+      - "3000:3000"
+    command: "npm run start:dev"
