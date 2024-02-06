@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -11,3 +11,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username  String
+  email     String   @unique
+  password  String
+  age       Int
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  picture   String?
+  product   Product[]
+  parent_id String
+  parent    Category   @relation("childToParent", fields: [parent_id], references: [id])
+  child     Category[] @relation("childToParent")
+}
+
+model Product {
+  id         String   @id @default(uuid())
+  name       String
+  picture    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+}
