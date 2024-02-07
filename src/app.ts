@@ -3,6 +3,7 @@ import { log } from 'console'
 import prisma from './utils/prisma'
 import { userRoute } from './modules/user/user.routes'
 import { categoryRoutes } from './modules/category/category.routes'
+import { productRoutes } from './modules/product/product.routes'
 import { categorySchemas } from './modules/category/category.schema'
 import {contentParser} from 'fastify-multer'
 
@@ -15,6 +16,7 @@ async function main() {
     server.register(contentParser)
     server.register(userRoute, {prefix: '/api'})
     server.register(categoryRoutes, {prefix: '/api/category'})
+    server.register(productRoutes, {prefix: '/api/product'})
     server.listen({port: 3001, host: '0.0.0.0'}, (err) => {
         if (err) {
             server.log.error(err)

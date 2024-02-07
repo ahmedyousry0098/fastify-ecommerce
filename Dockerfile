@@ -10,6 +10,4 @@ COPY . .
 
 RUN npx prisma generate
 
-RUN npx prisma migrate dev --name init
-
-CMD [ "npm", "run", "start:dev" ]
+CMD ["wait-for-it", "mysql:3306", "--", "npm", "run", "start:dev"]

@@ -12,6 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql 
 
   backend:
     build: 
@@ -21,6 +22,11 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=mysql://root:mysql@localhost:3306/ecommerce
+    volumes:
+      - ./src:/app/src:ro
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: "npm run start:dev"
+
+volumes:
+  mysql-data:

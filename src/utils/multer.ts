@@ -1,3 +1,4 @@
+import { log } from "console";
 import { FastifyRequest } from "fastify";
 import multer, {diskStorage} from "fastify-multer";
 import { File } from "fastify-multer/lib/interfaces";
@@ -15,7 +16,7 @@ const storage = diskStorage({
 })
   
 const fileFilter = (req: FastifyRequest, file: File, callback: FileFilterCallback) => {
-    if (imageMimeType.includes(req.file.mimetype)) {
+    if (imageMimeType.includes(file.mimetype)) {
         callback(null, true)
     } else {
         callback(null, false)
